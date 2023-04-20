@@ -87,6 +87,7 @@ def weighted_error(y_pred, y_true, ref_df):
     
     #Add Predicted and True Outputs into Reference df
     data = ref_df[['Player', 'Season']]
+    seasons = data['Season'].nunique()
     data['y_pred'] = y_pred
     data['y_true'] = y_true
     
@@ -103,9 +104,9 @@ def weighted_error(y_pred, y_true, ref_df):
 
     # Calculate the weighted error
     data['weighted_error'] = data['rank_diff'] * data['weight']
-
+    
     # Return the sum of all weighted errors
-    return data['weighted_error'].sum()
+    return round(data['weighted_error'].sum() / seasons ,0)
     
 def custom_obj(y_pred, dtrain):
     """
@@ -167,10 +168,11 @@ def df_transform(df):
     #Transform Games and Minutes into %'s of totals
     df['G'] = round(df['G']/82,2)
     df['Minutes'] = round(df['MP_x']/48,2)
+    df['USG%'] = round(df['USG%']/100,2)
     df.drop(columns = ['MP_x'], inplace = True)
     
     #Identify stats to min-max scale
-    stats_cols = ['3P', '3P%', '2P', '2P%', 'FT', 'FT%', 'TRB', 'AST', 'STL', 'BLK', 'TOV', 'PTS']
+    stats_cols = ['3P', '3P%', '2P', '2P%', 'FT', 'FT%', 'TRB', 'AST', 'STL', 'BLK', 'TOV', 'PTS', 'Win_Contrib']
     df = min_max_scale_stats(df, stats_cols)
     df = df.loc[df.Win_Contrib > 0]
     return df.sort_values(by = "Win_Contrib", ascending = False)
