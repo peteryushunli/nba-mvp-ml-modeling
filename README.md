@@ -44,19 +44,6 @@ mvp_df = (mvp_df.groupby('Season').apply(lambda x: x.nlargest(5, 'Pts Won')).res
 mvp_df.head()
 ```
 
-    /var/folders/g9/lxmtwlzn7rb5ds2ctlg85t480000gn/T/ipykernel_50186/3743903361.py:2: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
-    To preserve the previous behavior, use
-    
-    	>>> .groupby(..., group_keys=False)
-    
-    To adopt the future behavior and silence this warning, use 
-    
-    	>>> .groupby(..., group_keys=True)
-      mvp_df = (mvp_df.groupby('Season').apply(lambda x: x.nlargest(5, 'Pts Won')).reset_index(drop=True))
-
-
-
-
 
 <div>
 
